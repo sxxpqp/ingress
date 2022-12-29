@@ -1,0 +1,53 @@
+# https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ypt
+  namespace: tuxing-xiaofag
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ypt.cn-saturn.com
+      secretName: ypt
+  rules:
+  - host: ypt.cn-saturn.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: turingcloud-web
+            port:
+              number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: www-tuxing
+  namespace: tuxing-xiaofag
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - www.cn-saturn.com
+      secretName: www-tuxing
+  rules:
+  - host: www.cn-saturn.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: turingcloud-web
+            port:
+              number: 80
+---
